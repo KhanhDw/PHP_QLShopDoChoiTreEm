@@ -133,7 +133,106 @@ class DOCHOI{
         }
     }
 
+    // Thêm mới
+    public function themdochoi($dochoi){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "INSERT INTO dochoi(tendochoi, thuonghieu, xuatxu, dotuoi, namsanxuat, mota, giagoc, giam, soluong, danhmuc_id, hinhanh, luotxem, luotmua, luotdanhgia) 
+                VALUES(:tendochoi,:thuonghieu,:xuatxu,:dotuoi,:namsanxuat,:mota,:giagoc,0,:soluong,:danhmuc_id,:hinhanh,0,0,0)";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":tendochoi", $dochoi->tendochoi);
+            $cmd->bindValue(":thuonghieu", $dochoi->thuonghieu);
+            $cmd->bindValue(":xuatxu", $dochoi->xuatxu);
+            $cmd->bindValue(":dotuoi", $dochoi->dotuoi);
+            $cmd->bindValue(":namsanxuat", $dochoi->namsanxuat);
+            $cmd->bindValue(":mota", $dochoi->mota);
+            $cmd->bindValue(":giagoc", $dochoi->giagoc);
+            $cmd->bindValue(":soluong", $dochoi->soluong);
+            $cmd->bindValue(":danhmuc_id", $dochoi->danhmuc_id);
+            $cmd->bindValue(":hinhanh", $dochoi->hinhanh);
+            $result = $cmd->execute();            
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
 
+    // Xóa 
+    public function xoadochoi($dochoi){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "DELETE FROM dochoi WHERE id=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":id", $dochoi->id);
+            $result = $cmd->execute();            
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
+    // Cập nhật 
+    public function suadochoi($dochoi){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "UPDATE dochoi SET tendochoi=:tendochoi,
+                                        thuonghieu=:thuonghieu,
+                                        xuatxu=:xuatxu,
+                                        dotuoi=:dotuoi,
+                                        namsanxuat=:namsanxuat,
+                                        mota=:mota,
+                                        giagoc=:giagoc,
+                                        giam=:giam,
+                                        soluong=:soluong,
+                                        danhmuc_id=:danhmuc_id,
+                                        hinhanh=:hinhanh
+                                        WHERE id=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":tendochoi", $dochoi->tendochoi);
+            $cmd->bindValue(":thuonghieu", $dochoi->thuonghieu);
+            $cmd->bindValue(":xuatxu", $dochoi->xuatxu);
+            $cmd->bindValue(":dotuoi", $dochoi->dotuoi);
+            $cmd->bindValue(":namsanxuat", $dochoi->namsanxuat);
+            $cmd->bindValue(":mota", $dochoi->mota);
+            $cmd->bindValue(":giagoc", $dochoi->giagoc);
+            $cmd->bindValue(":giam", $dochoi->giam);
+            $cmd->bindValue(":soluong", $dochoi->soluong);
+            $cmd->bindValue(":danhmuc_id", $dochoi->danhmuc_id);
+            $cmd->bindValue(":hinhanh", $dochoi->hinhanh);
+            $cmd->bindValue(":id", $dochoi->id);
+            $result = $cmd->execute();            
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
+    // Cập nhật số lượng tồn
+    public function capnhatsoluong($id, $soluong){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "UPDATE dochoi SET soluong=soluong - :soluong WHERE id=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":soluong", $soluong);
+            $cmd->bindValue(":id", $id);
+            $result = $cmd->execute();            
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
 
 }
 ?>
