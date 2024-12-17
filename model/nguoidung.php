@@ -154,6 +154,78 @@ class NGUOIDUNG{
 
 	// Cập nhật thông tin ng dùng: họ tên, số đt, email, ảnh đại diện 
 	// (SV nên truyền tham số là 1 đối tượng kiểu người dùng, không nên truyền nhiều tham số rời rạc như thế này)
+	public function capnhatnguoidung($id,$email,$sodienthoai,$tennguoidung,$hinhanh){
+		$db = DATABASE::connect();
+		try{
+			$sql = "UPDATE nguoidung set tennguoidung=:tennguoidung, email=:email, sodienthoai=:sodienthoai, hinhanh=:hinhanh where id=:id";
+			$cmd = $db->prepare($sql);
+			$cmd->bindValue(':id',$id);
+			$cmd->bindValue(':email',$email);
+			$cmd->bindValue(':sodienthoai',$sodienthoai);
+			$cmd->bindValue(':tennguoidung',$tennguoidung);
+			$cmd->bindValue(':hinhanh',$hinhanh);
+			$ketqua = $cmd->execute();            
+            return $ketqua;
+		}
+		catch(PDOException $e){
+			$error_message=$e->getMessage();
+			echo "<p>Lỗi truy vấn: $error_message</p>";
+			exit();
+		}
+	}
 
+	// Đổi mật khẩu
+	public function doimatkhau($email,$matkhau){
+		$db = DATABASE::connect();
+		try{
+			$sql = "UPDATE nguoidung set matkhau=:matkhau where email=:email";
+			$cmd = $db->prepare($sql);
+			$cmd->bindValue(':email',$email);
+			$cmd->bindValue(':matkhau',md5($matkhau));
+			$ketqua = $cmd->execute();            
+            return $ketqua;
+		}
+		catch(PDOException $e){
+			$error_message=$e->getMessage();
+			echo "<p>Lỗi truy vấn: $error_message</p>";
+			exit();
+		}
+	}
+
+	// Đổi quyền (loại người dùng: 1 quản trị, 2 nhân viên. Không cần nâng cấp quyền đối với loại người dùng 3-khách hàng)
+	public function doiquyennguoidung($id,$quyen){
+		$db = DATABASE::connect();
+		try{
+			$sql = "UPDATE nguoidung set quyen=:quyen where id=:id";
+			$cmd = $db->prepare($sql);
+			$cmd->bindValue(':id',$id);
+			$cmd->bindValue(':quyen',$quyen);
+			$ketqua = $cmd->execute();            
+            return $ketqua;
+		}
+		catch(PDOException $e){
+			$error_message=$e->getMessage();
+			echo "<p>Lỗi truy vấn: $error_message</p>";
+			exit();
+		}
+	}
+
+	// Đổi trạng thái (0 khóa, 1 kích hoạt)
+	public function doitrangthai($id,$trangthai){
+		$db = DATABASE::connect();
+		try{
+			$sql = "UPDATE nguoidung set trangthai=:trangthai where id=:id";
+			$cmd = $db->prepare($sql);
+			$cmd->bindValue(':id',$id);
+			$cmd->bindValue(':trangthai',$trangthai);
+			$ketqua = $cmd->execute();            
+            return $ketqua;
+		}
+		catch(PDOException $e){
+			$error_message=$e->getMessage();
+			echo "<p>Lỗi truy vấn: $error_message</p>";
+			exit();
+		}
+	}
 }
 ?>
