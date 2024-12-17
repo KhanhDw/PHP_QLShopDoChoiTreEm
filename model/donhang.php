@@ -42,7 +42,70 @@ class DONHANG{
 		}
 	}
 
-	
-	// Đọc ds đơn hàng của 1 khách
+	public function laydonhangtheoidnguoidung($nguoidung_id){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM donhang WHERE nguoidung_id=:nguoidung_id ORDER BY id DESC";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":nguoidung_id", $nguoidung_id);
+            $cmd->execute();
+            $result = $cmd->fetchAll();             
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
+	public function laydonhangmoinhat(){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM donhang ORDER BY id DESC LIMIT 1";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->execute();
+            $result = $cmd->fetch();             
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
+	public function laydonhang(){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM donhang";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->execute();
+            $result = $cmd->fetchAll();
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
+	public function laydonhangtheoid($id){
+        $dbcon = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM donhang WHERE id=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":id", $id);
+            $cmd->execute();
+            $result = $cmd->fetch();             
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
 }
 ?>
