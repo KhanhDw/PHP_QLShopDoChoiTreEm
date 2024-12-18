@@ -71,8 +71,22 @@ switch($action){
         include("changepass.php");
         break; 
     case "doimatkhau":
-         if (isset($_POST["txtemail"]) && isset($_POST["txtmatkhaumoi"]) )
-            $nd->doimatkhau($_POST["txtemail"],$_POST["txtmatkhaumoi"]);
+        if(md5($_POST["txtmatkhauhientai"])!=$_SESSION["nguoidung"]["matkhau"]){
+            $message = "Mật khẩu hiện tại không đúng. Vui lòng nhập lại!";
+            echo '<script> alert("' . $message . '"); </script>';
+            include("main.php");
+            return;
+        }
+        if($_POST["txtmatkhaumoi"]!=$_POST["txtxacnhanmatkhaumoi"]){
+            $message = "Mật khẩu xác nhận không đúng. Vui lòng nhập lại!";
+            echo '<script> alert("' . $message . '"); </script>';
+            include("main.php");
+            return;
+        }
+
+        $nd->doimatkhau($_SESSION["nguoidung"]["email"],$_POST["txtmatkhaumoi"]);
+        $message = "Đổi mật khẩu thành công!";
+        echo '<script> alert("' . $message . '"); </script>';
         include("main.php");
         break; 
     default:
