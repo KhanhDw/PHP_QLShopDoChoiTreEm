@@ -51,23 +51,30 @@
         <p><?php echo $dcct["mota"]; ?></p>
       </div>
 
-      <!-- <div>
-        <h3 class="text-primary">Đánh giá sản phẩm: </h3>
-        <p><?php echo $dcct["danhgia"]; ?></p>
-      </div> -->
-
-      <div class = "Đánh giá">
+    <form method="post" class="form-inline">
+    <input type="hidden" name="action" value="danhgia">
+    <input type="hidden" name="iddc" value="<?php echo $dcct["id"];?>">
+    <div>
           <h5 class="text-primary">Đánh giá sản phẩm: </h5>
-          
-			    <textarea name="binhluan" id="" cols="100" rows="10"></textarea>
-          <input type="submit" class="btn btn-primary" value="Gửi đánh giá">
+			    <textarea name="binhluan" cols="100" rows="5"></textarea>
+          <input type="submit" class="btn btn-warning" value="Gửi đánh giá">
       </div>
-
-
-        <!-- <div class="danhgia">
-          <iframe src="danhgia.php?iddc=<?=$_GET['id']?>"width="100%" height="400px" frameborder="0"></iframe>
-      </div> -->
+    </form>
       
+        
+<table>
+  <?php
+  foreach($danhgia as $dg)
+    if($dg["dochoi_id"] == $dcct["id"]){ 
+      foreach($nguoidung as $n)
+      if($n["id"]==$dg["nguoidung_id"]){?>
+      <tr>
+         <td><b><?php echo $n["hoten"]; ?>: </b></td>
+        <td><?php echo $dg["binhluan"]; ?></td>
+      </tr>
+  <?php  }}?>
+</table>
+
       <br>
     </div>
     <div class="col-sm-3"> 
@@ -104,7 +111,7 @@
                     </div>
                     <!-- Product price-->
                     <?php if ($m["giam"] > 0){ ?>
-                    <span class="text-muted text-decoration-line-through"><?php echo number_format($m["giagoc"]); ?> VND</span><?php } // end if ?> <br>
+                    <span class="text-muted text-decoration-line-through"><?php echo number_format($m["giagoc"]); ?> VND</span><?php } ?> <br>
                     <span class="text-danger fw-bolder"><?php echo number_format($m["giagoc"]-$m["giagoc"]*$m["giam"]/100); ?> VND</span>
                 </div>
             </div>
@@ -120,9 +127,7 @@
         }
       endforeach; 
       ?>
-
       
-
     </div>    
   </div>
   
