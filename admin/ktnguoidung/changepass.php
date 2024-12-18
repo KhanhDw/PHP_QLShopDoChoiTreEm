@@ -14,6 +14,10 @@
 		  
 		    
           <form method="post" name="f" action="../ktnguoidung/index.php">
+          <div class="my-3">  
+              <label class="form-label">Email</label> 
+              <input class="form-control" type="text" name="txtemail" value="<?php echo $_SESSION["nguoidung"]["email"]; ?>" disabled>
+            </div>
             <div class="my-3">  
               <label class="form-label">Email</label> 
               <input class="form-control" type="text" name="txtemail" value="<?php echo $_SESSION["nguoidung"]["email"]; ?>" disabled>
